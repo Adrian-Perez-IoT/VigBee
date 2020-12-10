@@ -58,7 +58,7 @@ class HouseStatusRead extends StatelessWidget {
                         child: new Text(
                           'Sala',
                           style: new TextStyle(
-                            fontSize: 32,
+                            fontSize: 30,
                             color: Colors.black87,
                             fontWeight: FontWeight.w900,
                             fontStyle: FontStyle.italic,
@@ -333,7 +333,7 @@ class _RealtimeSensorReadState extends State<RealtimeSensorRead> {
                   child: Text(
                     // snapshot.data.documents[1]["time"].toString(),
                     mostrarhorarioExacto(
-                        timestamp: snapshot.data.documents[1]["time"]),
+                        timestamp: snapshot.data.documents[0]["time"]),
                     style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
@@ -344,7 +344,7 @@ class _RealtimeSensorReadState extends State<RealtimeSensorRead> {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     // snapshot.data.documents[1]["time"].toString(),
-                    obtenerDia(timestamp: snapshot.data.documents[1]["time"]),
+                    obtenerDia(timestamp: snapshot.data.documents[0]["time"]),
                     style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
