@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "652676676969",
+    "project_id": "smarthouse-c4210",
+    "storage_bucket": "smarthouse-c4210.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:652676676969:android:17ad1027acf264f297d1f8",
+        "android_client_info": {
+          "package_name": "com.example.hellow_world_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "652676676969-pl3jmomn11qqfm2bgopmba6bm5nmd01r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTb6zunhGkq0MlxeRNUMqPjq-ou6TRV4I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "652676676969-pl3jmomn11qqfm2bgopmba6bm5nmd01r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:652676676969:android:8a3abe4d4494b05697d1f8",
+        "android_client_info": {
+          "package_name": "com.example.vigbee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "652676676969-pl3jmomn11qqfm2bgopmba6bm5nmd01r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTb6zunhGkq0MlxeRNUMqPjq-ou6TRV4I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "652676676969-pl3jmomn11qqfm2bgopmba6bm5nmd01r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
