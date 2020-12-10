@@ -18,30 +18,75 @@ class HouseStatusRead extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          Container(
-            margin: new EdgeInsets.all(10.0),
-            decoration: new BoxDecoration(
-              border: Border.all(
-                color: kPrimaryColor,
-                width: 1,
-              ),
-              borderRadius: new BorderRadius.all(new Radius.circular(10.0)),
-            ),
-            child: Column(
+          RealtimeSensorRead2(
+            vigilar: "Movimiento",
+            colorContenedor: Colors.green,
+            lugarSensor: "LivingRoom",
+          ),
+          /* RealtimeSensorRead2(),
+          RealtimeSensorRead2(), */
+
+          RealtimeSensorRead(
+            cualSensor: "Porton",
+            color: Colors.blue,
+            lugar: "Garage",
+          ),
+          /*
+          SizedBox(height: 18),
+          RealtimeSensorRead(
+            cualSensor: "Movimiento",
+            color: Colors.green,
+            lugar: "LivingRoom",
+          ),
+          SizedBox(height: 18),
+          RealtimeSensorRead(
+            cualSensor: "Gas",
+            color: Colors.deepOrangeAccent,
+            lugar: "Cocina",
+          ),
+*/
+        ],
+      ),
+    );
+  }
+}
+
+class RealtimeSensorRead2 extends StatefulWidget {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final String vigilar;
+  final Color colorContenedor;
+  final String lugarSensor;
+  RealtimeSensorRead2({this.vigilar, this.colorContenedor, this.lugarSensor});
+
+  @override
+  _RealtimeSensorRead2State createState() => _RealtimeSensorRead2State();
+}
+
+class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: new EdgeInsets.all(10.0),
+      decoration: new BoxDecoration(
+        border: Border.all(
+          color: kPrimaryColor,
+          width: 1,
+        ),
+        borderRadius: new BorderRadius.all(new Radius.circular(10.0)),
+      ),
+      child: StreamBuilder(
+        stream: widget._firestore.collection("lecturasSensor").snapshots(),
+        builder: (BuildContext context, snapshot) {
+          if (snapshot.hasData && !snapshot.hasError && snapshot.data != null) {
+            return Column(
               children: [
-                /* Contenedor imagen */
+                /* Contenedor imagen de cabecera */
                 Container(
                   height: 140.0,
                   decoration: new BoxDecoration(
                     borderRadius: new BorderRadius.only(
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10)),
-                    gradient: new LinearGradient(
-                      colors: [Colors.black, Colors.black],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      tileMode: TileMode.clamp,
-                    ),
                     image: DecorationImage(
                       image:
                           AssetImage("assets/images/livingroombackgroud.jpg"),
@@ -105,7 +150,9 @@ class HouseStatusRead extends StatelessWidget {
                           children: <Widget>[
                             new SizedBox(height: 10),
                             new Text(
-                              'Movimiento detectado',
+                              // 'Movimiento detectado',
+                              asignarNombreMostrar(
+                                  widget.vigilar, snapshot.data.documents),
                               style: new TextStyle(
                                 fontSize: 24,
                                 color: Colors.black,
@@ -120,7 +167,10 @@ class HouseStatusRead extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     new Text(
-                                      '1:14:30 Hs',
+                                      // '1:14:30 Hs',
+                                      mostrarhorarioExacto(
+                                          timestamp: snapshot.data.documents[2]
+                                              ["time"]),
                                       style: new TextStyle(
                                         fontSize: 17,
                                         color: Colors.green[900],
@@ -130,14 +180,14 @@ class HouseStatusRead extends StatelessWidget {
                                     ),
 
                                     /* new Text(
-                                    'Miercoles 9, Diciembre 2020',
-                                    style: new TextStyle(
-                                      fontSize: 19.0,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      backgroundColor: Colors.white70,
-                                    ),
-                                  ), */
+                                  'Miercoles 9, Diciembre 2020',
+                                  style: new TextStyle(
+                                    fontSize: 19.0,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    backgroundColor: Colors.white70,
+                                  ),
+                                ), */
                                   ],
                                 ),
                               ],
@@ -151,12 +201,16 @@ class HouseStatusRead extends StatelessWidget {
                                   style: new TextStyle(
                                     fontSize: 16.0,
                                     color: Colors.black,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w900,
+                                    fontStyle: FontStyle.italic,
                                   ),
                                 ),
                                 SizedBox(height: 5),
                                 new Text(
-                                  'Miercoles 9, Diciembre 2020 a las 1:14:30 hs  ',
+                                  // 'Miercoles 9, Diciembre 2020 a las 1:14:30 hs  ',
+                                  obtenerUltimaAmenaza(
+                                      timestamp: snapshot.data.documents[2]
+                                          ["ultimaAmenaza"]),
                                   style: new TextStyle(
                                     fontSize: 15.0,
                                     color: Colors.black,
@@ -172,92 +226,42 @@ class HouseStatusRead extends StatelessWidget {
                         ),
                       ),
                       /* new Padding(
-                        padding: new EdgeInsets.only(
-                            top: 82, left: 10.0, right: 10.0),
-                        child: new Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            new Checkbox(
-                              value: false,
-                              onChanged: null,
-                              activeColor: Colors.green,
-                              checkColor: Colors.white,
-                              tristate: false,
-                            ),
-                            /* new Text(
-                                '12°',
-                                style: new TextStyle(
-                                  fontSize: 30.0,
-                                  color: Colors.black,
-                                ),
-                              ), */
-                          ],
-                        ),
-                      ) */
+                      padding: new EdgeInsets.only(
+                          top: 82, left: 10.0, right: 10.0),
+                      child: new Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          new Checkbox(
+                            value: false,
+                            onChanged: null,
+                            activeColor: Colors.green,
+                            checkColor: Colors.white,
+                            tristate: false,
+                          ),
+                          /* new Text(
+                              '12°',
+                              style: new TextStyle(
+                                fontSize: 30.0,
+                                color: Colors.black,
+                              ),
+                            ), */
+                        ],
+                      ),
+                    ) */
                     ],
                   ),
                 ),
               ],
-            ),
-          ),
-          SizedBox(height: 35),
-          Container(
-            height: 150,
-            width: 400,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/livingroombackgroud.jpg"),
-                fit: BoxFit.cover,
-                colorFilter: new ColorFilter.mode(
-                    Colors.black.withOpacity(0.6), BlendMode.dstATop),
-                // colorFilter: ColorFilter.linearToSrgbGamma(),
-              ),
-              color: Colors.lightBlue,
-              borderRadius: BorderRadius.circular(25),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.8),
-                  spreadRadius: 5,
-                  blurRadius: 5,
-                  offset: Offset(0, 7), // changes position of shadow
-                ),
-              ],
-            ),
-            child: Placeholder(),
-          ),
-          SizedBox(height: 18),
-
-          RealtimeSensorRead(
-            cualSensor: "Porton",
-            color: Colors.blue,
-            lugar: "Garage",
-          ),
-          SizedBox(height: 18),
-          RealtimeSensorRead(
-            cualSensor: "Movimiento",
-            color: Colors.green,
-            lugar: "LivingRoom",
-          ),
-          // RealtimeSensorRead(
-          //   cualSensor: "Puerta Abierta",
-          //   color: Colors.blue,
-          // ),
-          SizedBox(height: 18),
-          RealtimeSensorRead(
-            cualSensor: "Gas",
-            color: Colors.deepOrangeAccent,
-            lugar: "Cocina",
-          ),
-
-          // RealtimeSensorRead(
-          //   cualSensor: "Monoxido de Carbono",
-          //   color: Colors.orange,
-          // ),
-        ],
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
+        },
       ),
     );
   }
 }
+/*  */ /*  */ /*  */ /*  */ /*  */ /*  */ /*  */ /*  */ /*  */ /*  */ /*  */ /*  */ /*  */
 
 class RealtimeSensorRead extends StatefulWidget {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -371,6 +375,66 @@ class _RealtimeSensorReadState extends State<RealtimeSensorRead> {
   }
 }
 
+String obtenerUltimaAmenaza({int timestamp}) {
+  //tiene que decir: "hace 30 segundos, hace 2 minutos, hace 5 dias, hace 3 semanas, hace 5 meses, etc""
+  DateTime dateSensorRead =
+      DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+  /* print(dateSensorRead
+      .toString()); // prints something like 2019-12-10 10:02:22.287949
+  print(DateFormat('EEEE').format(dateSensorRead)); // prints Tuesday
+  print(DateFormat('EEEE, d MMM, yyyy')
+      .format(dateSensorRead)); // prints Tuesday, 10 Dec, 2019
+  print(DateFormat('h:mm a').format(dateSensorRead)); // prints 10:02 AM
+ */
+  // return timestamp.toString();
+
+  // print(date.hour.toString() +
+  //     ":" +
+  //     date.minute.toString() +
+  //     ":" +
+  //     date.second.toString());
+  // print(date.hour);
+  // return date.hour.toString() +
+  //     ":" +
+  //     date.minute.toString() +
+  //     ":" +
+  //     date.second.toString() +
+  //     " Hs.";
+  // return DateFormat('EEEE, d MMM, yyyy').format(date);
+
+  switch (DateTime.fromMillisecondsSinceEpoch(timestamp * 1000).weekday) {
+    case 1:
+      return "Lunes " +
+          DateFormat('d MMM, yyyy').format(dateSensorRead).toString();
+    case 2:
+      return "Martes " +
+          DateFormat('d MMM, yyyy').format(dateSensorRead).toString();
+    case 3:
+      return "Miercoles " +
+          DateFormat('d MMM, yyyy').format(dateSensorRead).toString();
+    case 4:
+      /* return "Jueves " +
+          DateFormat('d MMM, yyyy').format(dateSensorRead).toString(); */
+      return DateFormat('h:mm:ss a').format(dateSensorRead) +
+          " " +
+          "Jueves " +
+          DateFormat('d MMM, yyyy').format(dateSensorRead).toString();
+    case 5:
+      return "Viernes " +
+          DateFormat('d MMM, yyyy').format(dateSensorRead).toString();
+    case 6:
+      return "Sabado " +
+          DateFormat('d MMM, yyyy').format(dateSensorRead).toString();
+    case 7:
+      return "Domingo " +
+          DateFormat('d MMM, yyyy').format(dateSensorRead).toString();
+
+      break;
+    default:
+      return "no es fecha valida";
+  }
+}
+
 String obtenerDia({int timestamp}) {
   DateTime dateSensorRead =
       DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
@@ -433,12 +497,14 @@ String mostrarhorarioExacto({int timestamp}) {
   // print(date);
   // devolver pero en hora local. ¿?
 
-  return date.hour.toString() +
+  /* La posta anterior
+   return date.hour.toString() +
       ":" +
       date.minute.toString() +
       ":" +
       date.second.toString() +
-      " Hs.";
+      " Hs."; */
+  return DateFormat('h:mm:ss a').format(date);
   // return timestamp.toString();
 }
 
