@@ -19,18 +19,28 @@ class HouseStatusRead extends StatelessWidget {
       child: Column(
         children: [
           RealtimeSensorRead2(
+            vigilar: "Porton",
+            colorContenedor: Colors.blue,
+            lugarSensor: "Garage",
+          ),
+          RealtimeSensorRead2(
             vigilar: "Movimiento",
             colorContenedor: Colors.green,
             lugarSensor: "LivingRoom",
           ),
+          RealtimeSensorRead2(
+            vigilar: "Gas",
+            colorContenedor: Colors.deepOrangeAccent,
+            lugarSensor: "Cocina",
+          ),
           /* RealtimeSensorRead2(),
           RealtimeSensorRead2(), */
 
-          RealtimeSensorRead(
+          /* RealtimeSensorRead(
             cualSensor: "Porton",
             color: Colors.blue,
             lugar: "Garage",
-          ),
+          ), */
           /*
           SizedBox(height: 18),
           RealtimeSensorRead(
@@ -89,7 +99,8 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                         topRight: Radius.circular(10)),
                     image: DecorationImage(
                       image:
-                          AssetImage("assets/images/livingroombackgroud.jpg"),
+                          // AssetImage("assets/images/livingroombackgroud.jpg"),
+                          asignarImageBackground(widget.vigilar),
                       fit: BoxFit.fitWidth,
                       colorFilter: new ColorFilter.mode(
                           Colors.white.withOpacity(0.2), BlendMode.hardLight),
@@ -139,7 +150,8 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                           child: new CircleAvatar(
                             radius: 24,
                             backgroundImage:
-                                AssetImage("assets/images/mocimiento.jpg"),
+                                // AssetImage("assets/images/porton.jpg"),
+                                asignarAvatar(cualLugar: widget.vigilar),
                           ),
                         ),
                       ),
@@ -152,7 +164,8 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                             new Text(
                               // 'Movimiento detectado',
                               asignarNombreMostrar(
-                                  widget.vigilar, snapshot.data.documents),
+                                  cualsensorMuestro: widget.vigilar,
+                                  documento: snapshot.data.documents),
                               style: new TextStyle(
                                 fontSize: 24,
                                 color: Colors.black,
@@ -168,9 +181,13 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                                   children: <Widget>[
                                     new Text(
                                       // '1:14:30 Hs',
-                                      mostrarhorarioExacto(
+                                      /* mostrarhorarioExacto(
+                                          cualSensor: widget.vigilar,
                                           timestamp: snapshot.data.documents[2]
-                                              ["time"]),
+                                              ["time"]), */
+                                      mostrarHorarioSensor(
+                                          cualSensor: widget.vigilar,
+                                          documento: snapshot.data.documents),
                                       style: new TextStyle(
                                         fontSize: 17,
                                         color: Colors.green[900],
@@ -178,16 +195,6 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                                         fontStyle: FontStyle.italic,
                                       ),
                                     ),
-
-                                    /* new Text(
-                                  'Miercoles 9, Diciembre 2020',
-                                  style: new TextStyle(
-                                    fontSize: 19.0,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    backgroundColor: Colors.white70,
-                                  ),
-                                ), */
                                   ],
                                 ),
                               ],
@@ -197,7 +204,7 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 new Text(
-                                  'Ultimo evento:',
+                                  'Ultima detección:',
                                   style: new TextStyle(
                                     fontSize: 16.0,
                                     color: Colors.black,
@@ -208,9 +215,17 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                                 SizedBox(height: 5),
                                 new Text(
                                   // 'Miercoles 9, Diciembre 2020 a las 1:14:30 hs  ',
-                                  obtenerUltimaAmenaza(
-                                      timestamp: snapshot.data.documents[2]
-                                          ["ultimaAmenaza"]),
+                                  /* mostrarhorarioExacto(
+                                          timestamp: snapshot.data.documents[2]
+                                              ["ultimaAmenaza"]) +
+                                      " - " +
+                                      obtenerFechaAmenaza(
+                                          timestamp: snapshot.data.documents[2]
+                                              ["ultimaAmenaza"]), */
+                                  mostrarHoraFechaUltimaAmenaza(
+                                      cualSensor: widget.vigilar,
+                                      documento: snapshot.data.documents),
+
                                   style: new TextStyle(
                                     fontSize: 15.0,
                                     color: Colors.black,
@@ -225,29 +240,6 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                           ],
                         ),
                       ),
-                      /* new Padding(
-                      padding: new EdgeInsets.only(
-                          top: 82, left: 10.0, right: 10.0),
-                      child: new Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          new Checkbox(
-                            value: false,
-                            onChanged: null,
-                            activeColor: Colors.green,
-                            checkColor: Colors.white,
-                            tristate: false,
-                          ),
-                          /* new Text(
-                              '12°',
-                              style: new TextStyle(
-                                fontSize: 30.0,
-                                color: Colors.black,
-                              ),
-                            ), */
-                        ],
-                      ),
-                    ) */
                     ],
                   ),
                 ),
@@ -261,121 +253,116 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
     );
   }
 }
-/*  */ /*  */ /*  */ /*  */ /*  */ /*  */ /*  */ /*  */ /*  */ /*  */ /*  */ /*  */ /*  */
 
-class RealtimeSensorRead extends StatefulWidget {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  // final Query query = FirebaseFirestore.instance.collection("lecturasSensor");
-  final String cualSensor;
-  final Color color;
-  final String lugar;
-  RealtimeSensorRead({this.cualSensor, this.color, this.lugar});
-  @override
-  _RealtimeSensorReadState createState() => _RealtimeSensorReadState();
-}
-
-class _RealtimeSensorReadState extends State<RealtimeSensorRead> {
-  @override
-  bool value = false;
-  // final dbRef = FirebaseFirestore.instance.ref();
-
-  onUpdate(bool lecturaSensor) {
-    setState(() {
-      // value = !value;
-      value = lecturaSensor;
-    });
-  }
-
-  Widget build(BuildContext context) {
-    return StreamBuilder(
-        // agregar una restriccion que detecte cuando los sensores no estan en linea.
-        stream: widget._firestore.collection("lecturasSensor").snapshots(),
-        builder: (BuildContext context, snapshot) {
-          if (snapshot.hasData && !snapshot.hasError && snapshot.data != null) {
-            return Column(
-              children: [
-                Card(
-                  child: FloatingActionButton.extended(
-                    heroTag: widget
-                        .cualSensor, //Evitar error "There are multiple heroes that share the same tag within a subtree"
-                    onPressed: () {
-                      onUpdate(true);
-                      // print("+*+*+*+*+**//+*/-*+/*");
-                      // print(snapshot.data.documents[1]["value"].toString());
-                    },
-                    label: Text(
-                      // snapshot.data.documents[2]["sensor"].toString(),
-                      // asignarNombreMostrar(snapshot.data.documents),
-                      asignarNombreMostrar(
-                          widget.cualSensor, snapshot.data.documents),
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-
-                    /* value
-                        ? Text(
-                            // snapshot.data.documents[2]["sensor"].toString(),
-                            // asignarNombreMostrar(snapshot.data.documents),
-                            asignarNombreMostrar(
-                                widget.cualSensor, snapshot.data.documents),
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          )
-                        : Text("Sin"), */
-                    elevation: 20,
-                    backgroundColor: identificarValueParaCadaCard(
-                            widget.cualSensor, snapshot.data.documents)
-                        ? widget.color
-                        : Colors.grey,
-                    icon: value
-                        ? Icon(Icons.visibility)
-                        : Icon(Icons.visibility_off),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    // snapshot.data.documents[1]["time"].toString(),
-                    mostrarhorarioExacto(
-                        timestamp: snapshot.data.documents[0]["time"]),
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    // snapshot.data.documents[1]["time"].toString(),
-                    obtenerDia(timestamp: snapshot.data.documents[0]["time"]),
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    // snapshot.data.documents[1]["sensor"].toString(),/
-                    identificoCardParaMostrarLugar(widget.cualSensor),
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ],
-            );
-          } else {
-            return CircularProgressIndicator();
-          }
-        });
+String mostrarHoraFechaUltimaAmenaza({String cualSensor, documento}) {
+  switch (cualSensor) {
+    case "Porton":
+      {
+        final date = DateTime.fromMillisecondsSinceEpoch(
+            documento[0]["ultimaAmenaza"] * 1000);
+        return DateFormat('h:mm:ss a').format(date) +
+            " - " +
+            obtenerFechaAmenaza(timestamp: documento[0]["ultimaAmenaza"]);
+      }
+      break;
+    case "Gas":
+      {
+        final date = DateTime.fromMillisecondsSinceEpoch(
+            documento[1]["ultimaAmenaza"] * 1000);
+        return DateFormat('h:mm:ss a').format(date) +
+            " - " +
+            obtenerFechaAmenaza(timestamp: documento[1]["ultimaAmenaza"]);
+      }
+      break;
+    case "Movimiento":
+      {
+        final date = DateTime.fromMillisecondsSinceEpoch(
+            documento[2]["ultimaAmenaza"] * 1000);
+        return DateFormat('h:mm:ss a').format(date) +
+            " - " +
+            obtenerFechaAmenaza(timestamp: documento[2]["ultimaAmenaza"]);
+      }
+      break;
+    default:
+      return "Error: zona a vigilar inexistente";
   }
 }
 
-String obtenerUltimaAmenaza({int timestamp}) {
+String mostrarHorarioSensor({String cualSensor, documento}) {
+  switch (cualSensor) {
+    case "Porton":
+      {
+        final date =
+            DateTime.fromMillisecondsSinceEpoch(documento[0]["time"] * 1000);
+        return DateFormat('h:mm:ss a').format(date);
+      }
+      break;
+    case "Gas":
+      {
+        final date =
+            DateTime.fromMillisecondsSinceEpoch(documento[1]["time"] * 1000);
+        return DateFormat('h:mm:ss a').format(date);
+      }
+      break;
+    case "Movimiento":
+      {
+        final date =
+            DateTime.fromMillisecondsSinceEpoch(documento[2]["time"] * 1000);
+        return DateFormat('h:mm:ss a').format(date);
+      }
+      break;
+    default:
+      return "Arror al mostrar horario de lectura en tiempo real";
+  }
+}
+
+AssetImage asignarAvatar({cualLugar}) {
+  // return AssetImage("assets/images/porton.jpg");
+  switch (cualLugar) {
+    case "Porton":
+      {
+        return AssetImage("assets/images/iconporton.png");
+      }
+      break;
+    case "Gas":
+      {
+        return AssetImage("assets/images/icorespiraposta.png");
+      }
+      break;
+    case "Movimiento":
+      {
+        return AssetImage("assets/images/mocimiento.jpg");
+      }
+      break;
+    default:
+      return AssetImage("assets/images/porton.jpg");
+  }
+}
+
+AssetImage asignarImageBackground(cualImagenAsigno) {
+  // return AssetImage("assets/images/livingroombackgroud.jpg");
+  switch (cualImagenAsigno) {
+    case "Porton":
+      {
+        return AssetImage("assets/images/porton5.jpg");
+      }
+      break;
+    case "Gas":
+      {
+        return AssetImage("assets/images/cocinaposta.jpg");
+      }
+      break;
+    case "Movimiento":
+      {
+        return AssetImage("assets/images/livingroombackgroud.jpg");
+      }
+      break;
+    default:
+      return AssetImage("assets/images/porton.jpg");
+  }
+}
+
+String obtenerFechaAmenaza({int timestamp}) {
   //tiene que decir: "hace 30 segundos, hace 2 minutos, hace 5 dias, hace 3 semanas, hace 5 meses, etc""
   DateTime dateSensorRead =
       DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
@@ -490,7 +477,7 @@ String obtenerDia({int timestamp}) {
   }
 }
 
-String mostrarhorarioExacto({int timestamp}) {
+String mostrarhorarioExacto({String cualSensor, int timestamp}) {
   final date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
 
   // final date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000).toUtc();
@@ -553,14 +540,14 @@ bool identificarValueParaCadaCard(cualCardIdentifico, documento) {
   // return false;
 }
 
-String asignarNombreMostrar(cualsensorMuestro, documento) {
+String asignarNombreMostrar({cualsensorMuestro, documento}) {
   switch (cualsensorMuestro) {
     case "Porton":
       {
         if (documento[0]["value"]) {
-          return "Porton Abierto";
+          return "Abierto";
         } else {
-          return "Porton Cerrado";
+          return "Cerrado";
         }
         // return documento[0]["sensor"];
       }
@@ -570,7 +557,7 @@ String asignarNombreMostrar(cualsensorMuestro, documento) {
         if (documento[1]["value"]) {
           return "Peligro monóxido de carbono";
         } else {
-          return "Sin monóxido de carbono";
+          return "Normal";
         }
       }
       break;
@@ -584,6 +571,121 @@ String asignarNombreMostrar(cualsensorMuestro, documento) {
       }
       break;
     default:
-      return "error al Identificar Sensor a Mostrar";
+      return "error al identificar el sensor a mostrar";
+  }
+}
+
+/*  */ /*  */ /*  */ /*  */ /*  */ /*  */ /*  */ /*  */ /*  */ /*  */ /*  */ /*  */ /*  */
+
+class RealtimeSensorRead extends StatefulWidget {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  // final Query query = FirebaseFirestore.instance.collection("lecturasSensor");
+  final String cualSensor;
+  final Color color;
+  final String lugar;
+  RealtimeSensorRead({this.cualSensor, this.color, this.lugar});
+  @override
+  _RealtimeSensorReadState createState() => _RealtimeSensorReadState();
+}
+
+class _RealtimeSensorReadState extends State<RealtimeSensorRead> {
+  @override
+  // bool value = false;
+  // final dbRef = FirebaseFirestore.instance.ref();
+
+  onUpdate(bool lecturaSensor) {
+    setState(() {
+      // value = !value;
+      // value = lecturaSensor;
+    });
+  }
+
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+        // agregar una restriccion que detecte cuando los sensores no estan en linea.
+        stream: widget._firestore.collection("lecturasSensor").snapshots(),
+        builder: (BuildContext context, snapshot) {
+          if (snapshot.hasData && !snapshot.hasError && snapshot.data != null) {
+            return Column(
+              children: [
+                Card(
+                  child: FloatingActionButton.extended(
+                    heroTag: widget
+                        .cualSensor, //Evitar error "There are multiple heroes that share the same tag within a subtree"
+                    onPressed: () {
+                      onUpdate(true);
+                      // print("+*+*+*+*+**//+*/-*+/*");
+                      // print(snapshot.data.documents[1]["value"].toString());
+                    },
+                    label: Text(
+                      // snapshot.data.documents[2]["sensor"].toString(),
+                      // asignarNombreMostrar(snapshot.data.documents),
+                      asignarNombreMostrar(
+                          cualsensorMuestro: widget.cualSensor,
+                          documento: snapshot.data.documents),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+
+                    /* value
+                        ? Text(
+                            // snapshot.data.documents[2]["sensor"].toString(),
+                            // asignarNombreMostrar(snapshot.data.documents),
+                            asignarNombreMostrar(
+                                widget.cualSensor, snapshot.data.documents),
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          )
+                        : Text("Sin"), */
+                    elevation: 20,
+                    backgroundColor: identificarValueParaCadaCard(
+                            widget.cualSensor, snapshot.data.documents)
+                        ? widget.color
+                        : Colors.grey,
+                    icon: true
+                        ? Icon(Icons.visibility)
+                        : Icon(Icons.visibility_off),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    // snapshot.data.documents[1]["time"].toString(),
+                    mostrarhorarioExacto(
+                        timestamp: snapshot.data.documents[0]["time"]),
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    // snapshot.data.documents[1]["time"].toString(),
+                    obtenerDia(timestamp: snapshot.data.documents[0]["time"]),
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    // snapshot.data.documents[1]["sensor"].toString(),/
+                    identificoCardParaMostrarLugar(widget.cualSensor),
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
+        });
   }
 }
