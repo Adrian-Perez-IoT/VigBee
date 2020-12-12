@@ -115,7 +115,7 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                           // 'SALA',
                           asignarTitulo(cualLugar: widget.vigilar),
                           style: new TextStyle(
-                            fontSize: 24,
+                            fontSize: 22,
                             // color: Colors.black87,
                             color: Colors.white,
                             fontWeight: FontWeight.w900,
@@ -132,11 +132,17 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                   height: 120.0,
                   decoration: new BoxDecoration(
                     gradient: new LinearGradient(
-                      colors: [Colors.blue[50], Colors.white10],
+                      colors: [Color(0xffd4eae5), Color(0xffe4eae5)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       tileMode: TileMode.clamp,
                     ),
+                    /* gradient: new LinearGradient(
+                      colors: [Colors.blue[50], Colors.white10],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      tileMode: TileMode.clamp,
+                    ), */
                   ),
                   child: new Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -146,11 +152,12 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                         padding: new EdgeInsets.only(
                             bottom: 40, left: 10, right: 16),
                         child: CircleAvatar(
-                          radius: 26,
+                          radius: 30,
                           // backgroundColor: Colors.blueAccent[100],
                           backgroundColor: Colors.green,
+                          // foregroundColor: Colors.red,
                           child: new CircleAvatar(
-                            radius: 22,
+                            radius: 29,
                             backgroundImage:
                                 // AssetImage("assets/images/porton.jpg"),
                                 asignarAvatar(cualLugar: widget.vigilar),
@@ -169,7 +176,7 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                                   cualsensorMuestro: widget.vigilar,
                                   documento: snapshot.data.documents),
                               style: new TextStyle(
-                                fontSize: 24,
+                                fontSize: 23,
                                 color: Colors.black,
                                 fontWeight: FontWeight.w900,
                                 fontStyle: FontStyle.italic,
@@ -187,7 +194,7 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                                           cualSensor: widget.vigilar,
                                           timestamp: snapshot.data.documents[2]
                                               ["time"]), */
-                                      "Horario de lectura: " +
+                                      "Hora de lectura: " +
                                           mostrarHorarioSensor(
                                               cualSensor: widget.vigilar,
                                               documento:
@@ -214,7 +221,7 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                                     fontSize: 16.0,
                                     color: Colors.black,
                                     fontWeight: FontWeight.w900,
-                                    fontStyle: FontStyle.italic,
+                                    // fontStyle: FontStyle.italic,
                                   ),
                                 ),
                                 SizedBox(height: 5),
@@ -235,7 +242,7 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                                     fontSize: 15.0,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
-                                    // backgroundColor: Colors.white70,
+                                    fontStyle: FontStyle.italic,
                                   ),
                                 ),
                               ],
@@ -371,12 +378,13 @@ AssetImage asignarAvatar({cualLugar}) {
   switch (cualLugar) {
     case "Porton":
       {
-        return AssetImage("assets/images/iconporton.png");
+        return AssetImage("assets/images/garageico.jpg");
       }
       break;
     case "Gas":
       {
-        return AssetImage("assets/images/icorespiraposta.png");
+        // return AssetImage("assets/images/icorespiraposta.png");
+        return AssetImage("assets/images/esto1.jpeg");
       }
       break;
     case "Movimiento":
