@@ -110,15 +110,17 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                   child: new Row(
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 100, left: 310),
+                        padding: const EdgeInsets.only(bottom: 100, left: 300),
                         child: new Text(
-                          'Sala',
+                          // 'SALA',
+                          asignarTitulo(cualLugar: widget.vigilar),
                           style: new TextStyle(
-                            fontSize: 30,
-                            color: Colors.black87,
+                            fontSize: 24,
+                            // color: Colors.black87,
+                            color: Colors.white,
                             fontWeight: FontWeight.w900,
-                            fontStyle: FontStyle.italic,
-                            // backgroundColor: Colors.white70,
+                            // fontStyle: FontStyle.italic,
+                            backgroundColor: Color(0xff0f4e68),
                           ),
                         ),
                       ),
@@ -148,7 +150,7 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                           // backgroundColor: Colors.blueAccent[100],
                           backgroundColor: Colors.green,
                           child: new CircleAvatar(
-                            radius: 24,
+                            radius: 22,
                             backgroundImage:
                                 // AssetImage("assets/images/porton.jpg"),
                                 asignarAvatar(cualLugar: widget.vigilar),
@@ -185,9 +187,11 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                                           cualSensor: widget.vigilar,
                                           timestamp: snapshot.data.documents[2]
                                               ["time"]), */
-                                      mostrarHorarioSensor(
-                                          cualSensor: widget.vigilar,
-                                          documento: snapshot.data.documents),
+                                      "Horario de lectura: " +
+                                          mostrarHorarioSensor(
+                                              cualSensor: widget.vigilar,
+                                              documento:
+                                                  snapshot.data.documents),
                                       style: new TextStyle(
                                         fontSize: 17,
                                         color: Colors.green[900],
@@ -204,7 +208,8 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 new Text(
-                                  'Ultima detección:',
+                                  // 'Ultima detección:',
+                                  asignarSubtitulo(cualVigilo: widget.vigilar),
                                   style: new TextStyle(
                                     fontSize: 16.0,
                                     color: Colors.black,
@@ -230,7 +235,7 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                                     fontSize: 15.0,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
-                                    backgroundColor: Colors.white70,
+                                    // backgroundColor: Colors.white70,
                                   ),
                                 ),
                               ],
@@ -251,6 +256,51 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
         },
       ),
     );
+  }
+}
+
+String asignarTitulo({String cualLugar}) {
+  switch (cualLugar) {
+    case "Porton":
+      {
+        return 'GARAGE';
+      }
+      break;
+    case "Gas":
+      {
+        return 'COCINA';
+      }
+      break;
+    case "Movimiento":
+      {
+        return 'SALA';
+      }
+      break;
+    default:
+      return "Error al identificar titulo de Imagen";
+  }
+}
+
+String asignarSubtitulo({String cualVigilo}) {
+  // return 'Ultima amenaza detectadasdfasdf:';
+  switch (cualVigilo) {
+    case "Porton":
+      {
+        return 'Última apertura del portón:';
+      }
+      break;
+    case "Gas":
+      {
+        return 'Último peligro identificado:';
+      }
+      break;
+    case "Movimiento":
+      {
+        return 'Último movimiento detectado:';
+      }
+      break;
+    default:
+      return "Error al identificar subtitulo Imagen";
   }
 }
 
@@ -354,7 +404,7 @@ AssetImage asignarImageBackground(cualImagenAsigno) {
       break;
     case "Movimiento":
       {
-        return AssetImage("assets/images/livingroombackgroud.jpg");
+        return AssetImage("assets/images/sala6.jpg");
       }
       break;
     default:
@@ -545,9 +595,9 @@ String asignarNombreMostrar({cualsensorMuestro, documento}) {
     case "Porton":
       {
         if (documento[0]["value"]) {
-          return "Abierto";
+          return "Portón abierto";
         } else {
-          return "Cerrado";
+          return "Portón cerrado";
         }
         // return documento[0]["sensor"];
       }

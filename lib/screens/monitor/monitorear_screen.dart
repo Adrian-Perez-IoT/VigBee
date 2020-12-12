@@ -49,7 +49,7 @@ class NotificationsListview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //declaramos una variable para acceder a TODAS las ¿Lecturas? (no, eso es en MONITORING) LA ALERTA RECIBIDA?
-    final amenaza = ModalRoute.of(context).settings.arguments;
+    // final amenaza = ModalRoute.of(context).settings.arguments;
 
     return Container(
       // height: size.height, creo que no hace falta.
