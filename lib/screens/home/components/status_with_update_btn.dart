@@ -92,7 +92,7 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
               children: [
                 /* Contenedor imagen de cabecera */
                 Container(
-                  height: 140.0,
+                  height: 131.0,
                   decoration: new BoxDecoration(
                     borderRadius: new BorderRadius.only(
                         topLeft: Radius.circular(10),
@@ -115,7 +115,7 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                           // 'SALA',
                           asignarTitulo(cualLugar: widget.vigilar),
                           style: new TextStyle(
-                            fontSize: 22,
+                            fontSize: 20,
                             // color: Colors.black87,
                             color: Colors.white,
                             fontWeight: FontWeight.w900,
@@ -129,7 +129,7 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                 ),
                 /* CONTENEDOR CON LA INFORMACION */
                 Container(
-                  height: 120.0,
+                  height: 150,
                   decoration: new BoxDecoration(
                     gradient: new LinearGradient(
                       colors: [Color(0xffd4eae5), Color(0xffe4eae5)],
@@ -176,7 +176,7 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                                   cualsensorMuestro: widget.vigilar,
                                   documento: snapshot.data.documents),
                               style: new TextStyle(
-                                fontSize: 23,
+                                fontSize: 21,
                                 color: Colors.black,
                                 fontWeight: FontWeight.w900,
                                 fontStyle: FontStyle.italic,
