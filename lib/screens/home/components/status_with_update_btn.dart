@@ -1,12 +1,7 @@
-// import 'package:mqtt_client/mqtt_client.dart';
-// import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:vigbee/constants.dart';
 import 'package:intl/intl.dart';
-//import 'package:hellow_world_flutter/screens/details/details_screen.dart';
-
-// import '../../../constants.dart';
 
 class HouseStatusRead extends StatelessWidget {
   const HouseStatusRead({
@@ -33,28 +28,6 @@ class HouseStatusRead extends StatelessWidget {
             colorContenedor: Colors.deepOrangeAccent,
             lugarSensor: "Cocina",
           ),
-          /* RealtimeSensorRead2(),
-          RealtimeSensorRead2(), */
-
-          /* RealtimeSensorRead(
-            cualSensor: "Porton",
-            color: Colors.blue,
-            lugar: "Garage",
-          ), */
-          /*
-          SizedBox(height: 18),
-          RealtimeSensorRead(
-            cualSensor: "Movimiento",
-            color: Colors.green,
-            lugar: "LivingRoom",
-          ),
-          SizedBox(height: 18),
-          RealtimeSensorRead(
-            cualSensor: "Gas",
-            color: Colors.deepOrangeAccent,
-            lugar: "Cocina",
-          ),
-*/
         ],
       ),
     );
@@ -137,12 +110,6 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                       end: Alignment.bottomRight,
                       tileMode: TileMode.clamp,
                     ),
-                    /* gradient: new LinearGradient(
-                      colors: [Colors.blue[50], Colors.white10],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      tileMode: TileMode.clamp,
-                    ), */
                   ),
                   child: new Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -226,18 +193,9 @@ class _RealtimeSensorRead2State extends State<RealtimeSensorRead2> {
                                 ),
                                 SizedBox(height: 5),
                                 new Text(
-                                  // 'Miercoles 9, Diciembre 2020 a las 1:14:30 hs  ',
-                                  /* mostrarhorarioExacto(
-                                          timestamp: snapshot.data.documents[2]
-                                              ["ultimaAmenaza"]) +
-                                      " - " +
-                                      obtenerFechaAmenaza(
-                                          timestamp: snapshot.data.documents[2]
-                                              ["ultimaAmenaza"]), */
                                   mostrarHoraFechaUltimaAmenaza(
                                       cualSensor: widget.vigilar,
                                       documento: snapshot.data.documents),
-
                                   style: new TextStyle(
                                     fontSize: 15.0,
                                     color: Colors.black,
@@ -270,7 +228,7 @@ String asignarTitulo({String cualLugar}) {
   switch (cualLugar) {
     case "Porton":
       {
-        return 'GARAGE';
+        return 'PUERTA';
       }
       break;
     case "Gas":
@@ -293,7 +251,7 @@ String asignarSubtitulo({String cualVigilo}) {
   switch (cualVigilo) {
     case "Porton":
       {
-        return 'Última apertura del portón:';
+        return 'Última apertura de puerta:';
       }
       break;
     case "Gas":
@@ -316,7 +274,8 @@ String mostrarHoraFechaUltimaAmenaza({String cualSensor, documento}) {
     case "Porton":
       {
         final date = DateTime.fromMillisecondsSinceEpoch(
-            documento[0]["ultimaAmenaza"] * 1000);
+                documento[0]["ultimaAmenaza"] * 1000)
+            .toUtc();
         return DateFormat('h:mm:ss a').format(date) +
             " - " +
             obtenerFechaAmenaza(timestamp: documento[0]["ultimaAmenaza"]);
@@ -325,7 +284,8 @@ String mostrarHoraFechaUltimaAmenaza({String cualSensor, documento}) {
     case "Gas":
       {
         final date = DateTime.fromMillisecondsSinceEpoch(
-            documento[1]["ultimaAmenaza"] * 1000);
+                documento[1]["ultimaAmenaza"] * 1000)
+            .toUtc();
         return DateFormat('h:mm:ss a').format(date) +
             " - " +
             obtenerFechaAmenaza(timestamp: documento[1]["ultimaAmenaza"]);
@@ -334,7 +294,8 @@ String mostrarHoraFechaUltimaAmenaza({String cualSensor, documento}) {
     case "Movimiento":
       {
         final date = DateTime.fromMillisecondsSinceEpoch(
-            documento[2]["ultimaAmenaza"] * 1000);
+                documento[2]["ultimaAmenaza"] * 1000)
+            .toUtc();
         return DateFormat('h:mm:ss a').format(date) +
             " - " +
             obtenerFechaAmenaza(timestamp: documento[2]["ultimaAmenaza"]);
@@ -350,21 +311,24 @@ String mostrarHorarioSensor({String cualSensor, documento}) {
     case "Porton":
       {
         final date =
-            DateTime.fromMillisecondsSinceEpoch(documento[0]["time"] * 1000);
+            DateTime.fromMillisecondsSinceEpoch(documento[0]["time"] * 1000)
+                .toUtc();
         return DateFormat('h:mm:ss a').format(date);
       }
       break;
     case "Gas":
       {
         final date =
-            DateTime.fromMillisecondsSinceEpoch(documento[1]["time"] * 1000);
+            DateTime.fromMillisecondsSinceEpoch(documento[1]["time"] * 1000)
+                .toUtc();
         return DateFormat('h:mm:ss a').format(date);
       }
       break;
     case "Movimiento":
       {
         final date =
-            DateTime.fromMillisecondsSinceEpoch(documento[2]["time"] * 1000);
+            DateTime.fromMillisecondsSinceEpoch(documento[2]["time"] * 1000)
+                .toUtc();
         return DateFormat('h:mm:ss a').format(date);
       }
       break;
@@ -402,12 +366,12 @@ AssetImage asignarImageBackground(cualImagenAsigno) {
   switch (cualImagenAsigno) {
     case "Porton":
       {
-        return AssetImage("assets/images/porton5.jpg");
+        return AssetImage("assets/images/estelita.jpg");
       }
       break;
     case "Gas":
       {
-        return AssetImage("assets/images/cocinaposta.jpg");
+        return AssetImage("assets/images/gas.jpeg");
       }
       break;
     case "Movimiento":
@@ -536,7 +500,7 @@ String obtenerDia({int timestamp}) {
 }
 
 String mostrarhorarioExacto({String cualSensor, int timestamp}) {
-  final date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+  final date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000).toUtc();
 
   // final date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000).toUtc();
   // print(date);
@@ -551,6 +515,19 @@ String mostrarhorarioExacto({String cualSensor, int timestamp}) {
       " Hs."; */
   return DateFormat('h:mm:ss a').format(date);
   // return timestamp.toString();
+}
+
+String readTimestamp({int timestamp}) {
+  // final date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+  final date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000).toUtc();
+  // print(date);
+  // devolver pero en hora local. ¿?
+  return date.hour.toString() +
+      ":" +
+      date.minute.toString() +
+      ":" +
+      date.second.toString() +
+      " Hs.";
 }
 
 String identificoCardParaMostrarLugar(cualCardIdentifico) {
@@ -603,9 +580,9 @@ String asignarNombreMostrar({cualsensorMuestro, documento}) {
     case "Porton":
       {
         if (documento[0]["value"]) {
-          return "Portón abierto";
+          return "Puerta abiertaz";
         } else {
-          return "Portón cerrado";
+          return "Puerta cerrada";
         }
         // return documento[0]["sensor"];
       }
@@ -613,7 +590,7 @@ String asignarNombreMostrar({cualsensorMuestro, documento}) {
     case "Gas":
       {
         if (documento[1]["value"]) {
-          return "Peligro monóxido de carbono";
+          return "Peligro: Gas Tóxico";
         } else {
           return "Normal";
         }
@@ -685,16 +662,6 @@ class _RealtimeSensorReadState extends State<RealtimeSensorRead> {
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
 
-                    /* value
-                        ? Text(
-                            // snapshot.data.documents[2]["sensor"].toString(),
-                            // asignarNombreMostrar(snapshot.data.documents),
-                            asignarNombreMostrar(
-                                widget.cualSensor, snapshot.data.documents),
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          )
-                        : Text("Sin"), */
                     elevation: 20,
                     backgroundColor: identificarValueParaCadaCard(
                             widget.cualSensor, snapshot.data.documents)

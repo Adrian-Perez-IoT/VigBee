@@ -12,9 +12,6 @@ class PushNotificationProvider {
     _firebaseMessaging.getToken().then((token) {
       print("===== FCM Token =====");
       print(token);
-      //Aqui funcion guardarTokenFirestore(){cuidar que el token no haya sido ya previamente guardado}. Para luego recuperar el token en el Servidor bakend MQTT (elegir un solo token y que sea el ultimo).
-      //emulador api28 -> dcS-sFSue18:APA91bFVq64WRhbmIjTerQdZ0w--cjaYyLJov7U9Eprx-IcbxTWqNHRz6Lb43NIER7UtbUVo0GPMVsrMbJvYaiWLKPzYicD8L9La_MWe6H25A2_exgsJAlAlm4QHkjIWgL5BOpNTV2eW
-      //j7-> dOLhex-gfLY:APA91bHDksOk8SmZKCJ1Nrfo5p5txUPyTkO_yb88tARjv7bsoUEl-whyNiofd3zAYKqNn3A7A4Cl6m4Yl2S5z8vjGizgjjuhIcQYUyl5joa_Rp0_KSALaxGI8yIiqBgIkt1bU7gB8ln_
 
       _firebaseMessaging.configure(onMessage: (message) async {
         print('======= On Message =======');

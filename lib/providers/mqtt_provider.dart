@@ -10,33 +10,10 @@ import 'dart:io';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
-/// An annotated simple subscribe/publish usage example for mqtt_server_client. Please read in with reference
-/// to the MQTT specification. The example is runnable, also refer to test/mqtt_client_broker_test...dart
-/// files for separate subscribe/publish tests.
-/// First create a client, the client is constructed with a broker name, client identifier
-/// and port if needed. The client identifier (short ClientId) is an identifier of each MQTT
-/// client connecting to a MQTT broker. As the word identifier already suggests, it should be unique per broker.
-/// The broker uses it for identifying the client and the current state of the client. If you don’t need a state
-/// to be hold by the broker, in MQTT 3.1.1 you can set an empty ClientId, which results in a connection without any state.
-/// A condition is that clean session connect flag is true, otherwise the connection will be rejected.
-/// The client identifier can be a maximum length of 23 characters. If a port is not specified the standard port
-/// of 1883 is used.
-/// If you want to use websockets rather than TCP see below.
 // final client = MqttServerClient('mqtt.diveriot.com', 'VigBeeClient');
 final client = MqttServerClient('192.168.0.10', 'VigBeeClient');
 
 Future<int> main() async {
-  /// A websocket URL must start with ws:// or wss:// or Dart will throw an exception, consult your websocket MQTT broker
-  /// for details.
-  /// To use websockets add the following lines -:
-  /// client.useWebSocket = true;
-  /// client.port = 80;  ( or whatever your WS port is)
-  /// There is also an alternate websocket implementation for specialist use, see useAlternateWebSocketImplementation
-  /// Note do not set the secure flag if you are using wss, the secure flags is for TCP sockets only.
-  /// You can also supply your own websocket protocol list or disable this feature using the websocketProtocols
-  /// setter, read the API docs for further details here, the vast majority of brokers will support the client default
-  /// list so in most cases you can ignore this.
-  /// Set logging on if needed, defaults to off
   client.logging(on: false);
 
   /// If you intend to use a keep alive value in your connect message that is not the default(60s)
@@ -49,11 +26,6 @@ Future<int> main() async {
   /// Add the successful connection callback
   client.onConnected = onConnected;
 
-  /// Add a subscribed callback, there is also an unsubscribed callback if you need it.
-  /// You can add these before connection or change them dynamically after connection if
-  /// you wish. There is also an onSubscribeFail callback for failed subscriptions, these
-  /// can fail either because you have tried to subscribe to an invalid topic or the broker
-  /// rejects the subscribe request.
   client.onSubscribed = onSubscribed;
 
   /// Set a ping received callback if needed, called whenever a ping response(pong) is received
@@ -186,76 +158,3 @@ void onConnected() {
 void pong() {
   print('EXAMPLE::Ping response client callback invoked');
 }
-
-/* import 'package:mqtt_client/mqtt_client.dart';
-import 'package:mqtt_client/mqtt_server_client.dart';
-
-Future<MqttServerClient> connect() async {
-  MqttServerClient client =
-      MqttServerClient.withPort('192.168.0.10', 'VigBee_client', 1883);
-  client.logging(on: true);
-  client.onConnected = onConnected;
-  client.onDisconnected = onDisconnected;
-  client.onUnsubscribed = onUnsubscribed;
-  client.onSubscribed = onSubscribed;
-  client.onSubscribeFail = onSubscribeFail;
-  client.pongCallback = pong;
-
-  final connMessage = MqttConnectMessage()
-      .authenticateAs('username', 'password')
-      .keepAliveFor(60)
-      // .withWillTopic('willtopic')
-      .withWillTopic('Casa/LivingRoom/Movimiento')
-      .withWillMessage('********-----------************___-----> Will message')
-      .startClean()
-      .withWillQos(MqttQos.atLeastOnce);
-  client.connectionMessage = connMessage;
-  try {
-    await client.connect();
-  } catch (e) {
-    print('Exception: $e');
-    client.disconnect();
-  }
-
-  client.updates.listen((List<MqttReceivedMessage<MqttMessage>> c) {
-    final MqttPublishMessage message = c[0].payload;
-    final payload =
-        MqttPublishPayload.bytesToStringAsString(message.payload.message);
-
-    print(
-        '------------------------Received message:$payload from topic: ${c[0].topic}>');
-  });
-
-  return client;
-}
-
-// connection succeeded
-void onConnected() {
-  print('====>>>>>Connected<<<<<====== +++++++++++++');
-}
-
-// unconnected
-void onDisconnected() {
-  print('Disconnected');
-}
-
-// subscribe to topic succeeded
-void onSubscribed(String topic) {
-  print('+++++++++++++ Subscribed topic: $topic ++++++++++++++++');
-}
-
-// subscribe to topic failed
-void onSubscribeFail(String topic) {
-  print('Failed to subscribe $topic');
-}
-
-// unsubscribe succeeded
-void onUnsubscribed(String topic) {
-  print('Unsubscribed topic: $topic');
-}
-
-// PING response received
-void pong() {
-  print('Ping response client callback invoked');
-}
- */

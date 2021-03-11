@@ -1,14 +1,8 @@
-// import 'dart:async';
-// import 'dart:html';
-// import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:vigbee/components/my_bottom_navbar.dart';
 import 'package:vigbee/screens/home/components/appBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-
-// import 'package:hellow_world_flutter/screens/alerts/components/expansionList.dart';
-//import 'package:hellow_world_flutter/screens/alerts/components/body.dart';
 
 class AlertsScreen extends StatelessWidget {
   @override
@@ -67,16 +61,6 @@ class _ListaDeAlertasState extends State<ListaDeAlertas> {
                 return AlertaItem(mostrar: mostrar);
               },
             );
-            //Si quiero reaccionar cuando ya se cierra el strem (ya no voy a recibir mas informacion), muestro mi ultmo widget
-            /* if (snapshot.connectionState == ConnectionState.done) {
-              return Text('Fin del Stream :( ');
-            } 
-            return Container(
-                height: 150,
-                width: 150,
-                color: snapshot.data //Aqui tengo que renderizar
-                );
-                */
           },
         ),
       ),
@@ -146,7 +130,13 @@ String readTimestamp({int timestamp}) {
   final date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000).toUtc();
   // print(date);
   // devolver pero en hora local. ¿?
-  return date.hour.toString() + ":" + date.minute.toString() + " Hs.";
+  /* return date.hour.toString() +
+      ":" +
+      date.minute.toString() +
+      ":" +
+      date.second.toString() +
+      " Hs."; */
+  return DateFormat('h:mm:ss a').format(date);
 }
 
 String obtenerDia({int timestamp}) {
@@ -200,6 +190,6 @@ String obtenerDia({int timestamp}) {
 
       break;
     default:
-      return "no es ninguno";
+      return "Error identificando dia de la semana";
   }
 }

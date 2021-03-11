@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:vigbee/components/my_bottom_navbar.dart';
-// import 'package:hellow_world_flutter/screens/alerts/components/expansionList.dart';
 import 'package:vigbee/screens/home/components/appBar.dart';
 import 'package:vigbee/providers/mqtt_provider.dart' as algomqtt;
 
 class MonitorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Size size = MediaQuery.of(context).size;
-    // return Placeholder();
     return Scaffold(
       appBar: buildAppBar(context),
       // body: NotificationsListview(),
@@ -20,17 +17,10 @@ class MonitorScreen extends StatelessWidget {
                 icon: Icon(Icons.calendar_today),
                 onPressed: () {
                   print("Aqui se suscribe al topic");
-                  // algomqtt.onSubscribed("Casa/LivingRoom/Movimiento");
-                  // algomqtt.client.onSubscribed("Casa/LivingRoom/Movimiento"); Error de: Exception caught by gesture
                   algomqtt.main();
                 },
               ),
             ],
-            // children: [
-            //   Text(
-            //       "Screen monitorear. Que es similar al monitorear del screen-home"),
-            //   ,
-            // ],
           ),
         ),
       ),
@@ -40,7 +30,7 @@ class MonitorScreen extends StatelessWidget {
   }
 }
 
-//Esta clase se un ejemplo extraido del tutorial. No la utilizo (por ahora) solo la tengo aqui de referencia para saber como se hace
+//Esta clase se un ejemplo extraido del tutorial. No la utilizo (por ahora)
 class NotificationsListview extends StatelessWidget {
   const NotificationsListview({
     Key key,
@@ -85,24 +75,6 @@ class NotificationsListview extends StatelessWidget {
         ],
       ),
     );
-
-    // return Row(
-    //   children: <Widget>[
-    //     RichText(
-    //       text: TextSpan(
-    //         children: [
-    //           TextSpan(
-    //             text: arg,
-    //             style: Theme.of(context).textTheme.headline2.copyWith(
-    //                   color: kTextColor,
-    //                   fontWeight: FontWeight.bold,
-    //                 ),
-    //           ),
-    //         ],
-    //       ),
-    //     )
-    //   ],
-    // );
   }
 }
 
